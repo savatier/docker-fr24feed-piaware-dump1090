@@ -162,6 +162,16 @@ RUN apt-get update && \
     dpkg -i tcl-tls_*.deb && \
     rm -rf /tmp/tcltls-rebuild
 
+RUN apt-get update && \
+    # mqtt publisher
+    apt-get install -y \
+    bc \
+    jq \
+    curl \
+    mosquitto-clients && \
+    wget https://raw.githubusercontent.com/savatier/docker-fr24feed-piaware-dump1090/main/mqtt-publisher.sh -O /opt/mqtt_publisher.sh && \
+    chmod +x /opt/mqtt_publisher.sh
+
 # COPY ALL
 COPY --from=dump1090 /tmp/dump1090/dump1090 /usr/lib/fr24/
 COPY --from=dump1090 /tmp/dump1090/public_html_merged /usr/lib/fr24/public_html
